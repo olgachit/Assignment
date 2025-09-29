@@ -1,5 +1,7 @@
 package model;
 
+import entity.Currency;
+
 import java.util.ArrayList;
 import java.util.List;
 

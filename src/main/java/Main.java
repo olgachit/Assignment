@@ -9,7 +9,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         CurrencyModel model = new CurrencyModel();
         CurrencyConverterView view = new CurrencyConverterView(primaryStage, model.getCurrencies());
-        new Controller(model, view);
+        new Controller(view);
     }
 
     public static void main(String[] args) {

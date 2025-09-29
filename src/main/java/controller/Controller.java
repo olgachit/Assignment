@@ -1,16 +1,15 @@
 package controller;
 
 import javafx.scene.control.Alert;
-import model.Currency;
-import model.CurrencyModel;
+import entity.Currency;
 import view.CurrencyConverterView;
+import dao.CurrencyDao;
 
 public class Controller {
-    private CurrencyModel model;
     private CurrencyConverterView view;
+    private final CurrencyDao dao = new CurrencyDao();
 
-    public Controller(CurrencyModel model, CurrencyConverterView view) {
-        this.model = model;
+    public Controller(CurrencyConverterView view) {
         this.view = view;
         addEventHandlers();
     }
@@ -28,7 +27,9 @@ public class Controller {
                     return;
                 }
 
-                double result = model.convert(amount, from, to);
+                double fromRate = dao.getRate(from.getAbbreviation());
+                double toRate = dao.getRate(to.getAbbreviation());
+                double result = amount * (toRate / fromRate);
                 view.getResultField().setText(String.format("%.2f", result));
             } catch (NumberFormatException ex) {
                 showError("Invalid amount. Please enter a numeric value.");
