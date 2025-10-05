@@ -21,8 +21,11 @@ public class Currency {
     public Currency() {}
 
     public String getAbbreviation() { return abbreviation; }
+    public void setAbbreviation(String abbreviation) { this.abbreviation = abbreviation; }
     public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
     public double getRateToUSD() { return rateToUSD; }
+    public void setRateToUSD(double rateToUSD) { this.rateToUSD = rateToUSD; }
 
     @Override
     public String toString() {
