@@ -11,7 +11,6 @@ import entity.Currency;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.CurrencyModel;
 import view.CurrencyConverterView;
@@ -86,11 +85,10 @@ public class Controller {
     @FXML
     private void onAddCurrencyClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddCurrency.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addCurrency.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Add New Currency");
-            stage.initModality(Modality.APPLICATION_MODAL);
 
             stage.showAndWait();
 
