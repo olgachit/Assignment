@@ -1,8 +1,15 @@
 package entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Currency {
+    @Id
     private String abbreviation;
     private String name;
+    @Column(name = "rate_to_usd")
     private double rateToUSD;
 
     public Currency(String abbreviation, String name, double rateToUSD) {
@@ -10,6 +17,8 @@ public class Currency {
         this.name = name;
         this.rateToUSD = rateToUSD;
     }
+
+    public Currency() {}
 
     public String getAbbreviation() { return abbreviation; }
     public String getName() { return name; }

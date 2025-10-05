@@ -1,5 +1,7 @@
 package controller;
 
+import dao.TransactionDao;
+import entity.Transaction;
 import javafx.scene.control.Alert;
 import entity.Currency;
 import view.CurrencyConverterView;
@@ -15,33 +17,30 @@ public class Controller {
     }
 
     private void addEventHandlers() {
-        view.getConvertButton().setOnAction(e -> {
+        view.getConvertButton().setOnAction(event -> {
             try {
                 double amount = Double.parseDouble(view.getAmountField().getText());
+                Currency source = view.getSourceCurrencyBox().getValue();
+                Currency target = view.getTargetCurrencyBox().getValue();
 
-                Currency from = view.getSourceCurrencyBox().getValue();
-                Currency to = view.getTargetCurrencyBox().getValue();
-
-                if (from == null || to == null) {
-                    showError("Please select both source and target currencies.");
+                if (source == null || target == null) {
+                    view.getResultField().setText("Select currencies");
                     return;
                 }
 
-                double fromRate = dao.getRate(from.getAbbreviation());
-                double toRate = dao.getRate(to.getAbbreviation());
-                double result = amount * (toRate / fromRate);
+                double result = amount * target.getRateToUSD() / source.getRateToUSD();
                 view.getResultField().setText(String.format("%.2f", result));
-            } catch (NumberFormatException ex) {
-                showError("Invalid amount. Please enter a numeric value.");
+
+                Transaction transaction = new Transaction(amount, source, target);
+                new TransactionDao().saveTransaction(transaction);
+
+                System.out.println("Transaction saved!");
+
+            } catch (NumberFormatException e) {
+                view.getResultField().setText("Invalid amount");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
-    }
-
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Input Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }
